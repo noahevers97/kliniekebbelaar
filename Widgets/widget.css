@@ -1,0 +1,79 @@
+/* Horizontal Timeline — scoped, typography-free */
+#{{uc_id}}{
+  position:relative;
+  --card-radius:1rem;
+  --gap:1.3rem;
+  --img-ratio:16/9;
+  --content-pad:1rem;
+
+  --arrow-side-gap:.02rem;
+  --arrow-size:3rem;
+  --dot-gap:1rem;
+  --dot-size:.625rem;
+
+  --dot-inactive:#F5F2EE;
+  --dot-active:#00A6A6;
+  --arrow-color:#2B3A67;
+}
+#{{uc_id}} *{ box-sizing:border-box; }
+
+/* Card */
+#{{uc_id}} .ue-carousel-item{ display:flex !important; flex-direction:column !important; flex:1 1 auto !important; min-height:0; }
+#{{uc_id}} .ue-item-image{ position:relative; aspect-ratio:var(--img-ratio); border-top-left-radius:var(--card-radius); border-top-right-radius:var(--card-radius); overflow:hidden; flex-shrink:0; }
+#{{uc_id}} .ue-item-image img{ width:100%; height:100%; display:block; object-fit:cover; }
+#{{uc_id}} .ue-carousel-content,
+#{{uc_id}} .ue-carousel-content-inside{
+  background: {{content_background_color}};
+  border-bottom-left-radius:var(--card-radius);
+  border-bottom-right-radius:var(--card-radius);
+  display:flex; flex-direction:column; flex:1 1 auto; justify-content:flex-start;
+  padding:var(--content-pad); position:relative; z-index:1;
+}
+
+/* Title + link — ONLY color */
+#{{uc_id}} .ue-item-title,
+#{{uc_id}} .ue-item-title a{
+  font-size: 1.3rem;         /* default size */
+  color: {{title_color}};    /* editable in Style tab */
+  text-align: center;
+  margin: .5rem 0;
+}
+
+/* Description — ONLY color */
+#{{uc_id}} .ue-item-intro{
+  color: {{description_color}};
+}
+
+/* Dots */
+#{{uc_id}} .owl-dots{ text-align:center; margin-top:.75rem; position:relative; z-index:2; }
+#{{uc_id}} .owl-dot{ width:var(--dot-size); height:var(--dot-size); padding:0; margin:0 calc(var(--dot-gap)/2) !important; border:0; background:none; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; }
+#{{uc_id}} .owl-dot span{ width:100%; height:100%; border-radius:50%; background:var(--dot-inactive); display:block; -webkit-mask-image:-webkit-radial-gradient(white, black); mask-image:radial-gradient(white, black); background-clip:padding-box; }
+#{{uc_id}} .owl-dot.active span{ background:var(--dot-active); }
+
+/* Arrows (mobile only) */
+#{{uc_id}} .carousel-nav{ display:none; }
+@media (max-width:767px){
+  #{{uc_id}} .carousel-nav.inside-content{
+    display:flex; position:absolute; left:var(--arrow-side-gap); right:var(--arrow-side-gap);
+    top:.5rem; justify-content:space-between; pointer-events:none; z-index:3;
+  }
+  #{{uc_id}} .carousel-nav.inside-content .carousel-prev,
+  #{{uc_id}} .carousel-nav.inside-content .carousel-next{
+    pointer-events:auto; background:none; border:0; color:var(--arrow-color);
+    font-size:var(--arrow-size); line-height:1; padding:0; margin:0;
+  }
+}
+
+/* Equal-height when Owl is active */
+#{{uc_id}} .owl-stage{ display:flex !important; align-items:stretch !important; }
+#{{uc_id}} .owl-item{ display:flex !important; flex:1 1 auto !important; align-items:stretch !important; height:auto !important; margin-right:var(--gap) !important; }
+#{{uc_id}} .owl-item:last-child{ margin-right:0 !important; }
+#{{uc_id}} .owl-stage-outer{ overflow:hidden !important; }
+
+/* GRID on desktop (no Owl) */
+#{{uc_id}}.is-grid .uc-items-wrapper{ display:grid; gap:var(--gap); grid-template-columns:repeat(3,minmax(0,1fr)); }
+#{{uc_id}}.is-grid .owl-dots,
+#{{uc_id}}.is-grid .carousel-nav{ display:none !important; }
+
+/* Optional dark variant */
+#{{uc_id}}.dark-ui{ --dot-inactive:#2B3A67; --arrow-color:#F5F2EE; }
