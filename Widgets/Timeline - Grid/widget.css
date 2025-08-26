@@ -196,3 +196,79 @@
   flex-direction:column; 
   min-height:0; 
 }
+
+/* ---- GRID only on desktop (>=768px) ---- */
+@media (min-width:768px){
+  #{{uc_id}}.is-grid .uc-items-wrapper{
+    display:grid;
+    gap: var(--gap-y) var(--gap-x);
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    align-items:stretch;
+    grid-auto-rows: 1fr;
+  }
+  #{{uc_id}}.is-grid .uc-items-wrapper > *{
+    margin:0 !important;
+    height:100%;
+    min-height:0;
+  }
+  #{{uc_id}}.is-grid .ue-carousel-item{
+    display:flex !important;
+    flex-direction:column !important;
+    height:var(--card-fixed-height, 100%) !important;
+    min-height:0;
+  }
+  #{{uc_id}}.is-grid .ue-item-image{ flex:0 0 auto; }
+  #{{uc_id}}.is-grid .ue-carousel-content,
+  #{{uc_id}}.is-grid .ue-carousel-content-inside{
+    flex:1 1 auto; display:flex; flex-direction:column; min-height:0;
+  }
+  /* hide carousel UI in desktop grid */
+  #{{uc_id}}.is-grid .owl-dots,
+  #{{uc_id}}.is-grid .carousel-nav{ display:none !important; }
+}
+
+/* ---- Force carousel on mobile/tablet (<768px) ---- */
+@media (max-width:767px){
+  /* kill any grid leftovers */
+  #{{uc_id}}.is-grid .uc-items-wrapper{ display:block !important; }
+  #{{uc_id}} .owl-stage{ display:flex !important; align-items:stretch !important; }
+  #{{uc_id}} .owl-item{
+    display:flex !important; flex:1 1 auto !important; align-items:stretch !important;
+    height:auto !important;
+    margin-right:var(--gap-x) !important;
+    margin-bottom:var(--gap-y) !important;
+  }
+  #{{uc_id}} .ue-item-title{ font-size:1.25rem; }
+
+  /* mobile arrows inside content (if you use them) */
+  #{{uc_id}} .carousel-nav.inside-content{
+    display:flex; position:absolute; left:.02rem; right:.02rem; top:.5rem;
+    justify-content:space-between; pointer-events:none; z-index:3;
+  }
+  #{{uc_id}} .carousel-nav.inside-content .carousel-prev,
+  #{{uc_id}} .carousel-nav.inside-content .carousel-next{
+    pointer-events:auto; background:none; border:0; color:var(--arrow-color);
+    font-size:var(--arrow-size); line-height:1; padding:0; margin:0;
+  }
+}
+
+/* ---- Title color stays editable; link inherits ---- */
+#{{uc_id}} .ue-item-title{ color: {{title_color}} !important; }
+#{{uc_id}} .ue-item-title a{ color: inherit !important; text-decoration:none; }
+
+/* ---- Content background feeds the dots (kept) ---- */
+#{{uc_id}} .ue-carousel-content,
+#{{uc_id}} .ue-carousel-content-inside{
+  background: var(--content-bg, {{content_background}} );
+}
+
+/* ---- Dots colors (inactive from content bg, active from control) ---- */
+#{{uc_id}} .owl-dot span{ background: var(--dot-inactive, var(--content-bg, {{content_background}})); }
+#{{uc_id}} .owl-dot.active span{ background: {{dot_active_color}}; }
+
+/* ---- Optional dark variant still works ---- */
+#{{uc_id}}.dark-ui{
+  --dot-inactive: rgba(255,255,255,.25);
+  --dot-active: #fff;
+  --arrow-color: #fff;
+}
