@@ -1,14 +1,16 @@
-<div class="ue-horizontal-timeline is-grid" id="{{uc_id}}"
-     style="--content-bg: {{content_background}}; --title-color: {{title_color}}; --intro-color: {{intro_color}};">
-  {% if show_arrows == "true" %}
-  <div class="carousel-nav inside-content">
-    <button class="carousel-prev" aria-label="Previous">{{left_arrow_html|raw}}</button>
-    <button class="carousel-next" aria-label="Next">{{right_arrow_html|raw}}</button>
-  </div>
-  {% endif %}
-
-  <div class="owl-carousel owl-theme uc-items-wrapper {{uc_filtering_addclass}} {{remote_parent.class|raw}}"
-       data-custom-sethtml="true" {{uc_filtering_attributes|raw}} {{remote_parent.attributes|raw}}>
+<div class="ue-horizontal-timeline js-ue-timeline"
+     id="{{ uc_id }}"
+     style="
+       --content-bg: {{ content_background_color }};
+       --ue-title-color: {{ title_color }};
+       --ue-desc-color: {{ description_color }};
+       --dot-active: {{ dots_active_color }};
+       --arrow-color: {{ arrows_color }};
+     "
+     data-ue-grid-breakpoint="1025"
+     data-ue-grid-cols="3">
+  <div class="uc-items-wrapper owl-carousel owl-theme"
+       data-custom-sethtml="true">
     {{ put_items() }}
   </div>
 </div>

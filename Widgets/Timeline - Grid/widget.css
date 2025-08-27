@@ -1,274 +1,106 @@
-/* ---------- GRID + MOBILE HYBRID, EQUAL HEIGHT, DYNAMIC COLORS ---------- */
-
-/* Scope */
-#{{uc_id}}{ 
-  /* Editor-controlled tokens (fallbacks keep it safe if inline style is missing) */
-  --content-bg: #eeeeee;
-  --title-color: #333333;
-  --intro-color: #333333;
-
-  /* layout tokens */
+.ue-horizontal-timeline {
+  position: relative;
   --card-radius: 1rem;
-  --gap-x: 4.0rem;
-  --gap-y: 3.0rem;
+  --gap-x: 1.3rem;
+  --gap-y: 1.3rem;
   --img-ratio: 16/9;
   --content-pad: 1rem;
-
-  /* dots / arrows */
-  --dot-gap: 1rem;
-  --dot-size: .625rem;
-  --dot-inactive: var(--content-bg);
+  --arrow-side-gap: .02rem;
+  --arrow-size: 3rem;
+  --content-bg: #F5F2EE;
+  --ue-title-color: #333;
+  --ue-desc-color: #333;
   --dot-active: #00A6A6;
   --arrow-color: #2B3A67;
+  --dot-gap: 1rem;
+  --dot-size: .625rem;
+}
+.ue-horizontal-timeline * { box-sizing: border-box; }
+
+.ue-carousel-item { display:flex!important; flex-direction:column!important; flex:1 1 auto!important; min-height:0; height:100%; }
+.ue-carousel-item-holder{ display:flex; flex-direction:column; height:100%; min-height:0; }
+.ue-item-image{ position:relative; aspect-ratio:var(--img-ratio); border-top-left-radius:var(--card-radius); border-top-right-radius:var(--card-radius); overflow:hidden; flex-shrink:0; line-height:0; }
+.ue-item-image img{ width:100%; height:100%; object-fit:cover; display:block; border:none; }
+
+/* Seam fix */
+.ue-item-image + .ue-carousel-content{ margin-top:-1px; border-top:0; }
+@supports (-webkit-touch-callout:none){
+  .ue-item-image + .ue-carousel-content{ margin-top:-2px; }
+}
+.ue-item-image::after{
+  content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px;
+  background:var(--content-bg, #F5F2EE); pointer-events:none;
 }
 
-#{{uc_id}} *{ box-sizing:border-box; }
-
-/* Card */
-#{{uc_id}} .ue-carousel-item{
-  display:flex; flex-direction:column; min-height:0;
-}
-#{{uc_id}} .ue-item-image{
-  position:relative; aspect-ratio:var(--img-ratio);
-  border-top-left-radius:var(--card-radius);
-  border-top-right-radius:var(--card-radius);
-  overflow:hidden; flex:0 0 auto;
-}
-#{{uc_id}} .ue-item-image img{ width:100%; height:100%; object-fit:cover; display:block; }
-
-#{{uc_id}} .ue-carousel-content,
-#{{uc_id}} .ue-carousel-content-inside{
-  background: var(--content-bg);
+.ue-carousel-content,
+.ue-carousel-content-inside{
+  background:var(--content-bg);
   border-bottom-left-radius:var(--card-radius);
   border-bottom-right-radius:var(--card-radius);
+  display:flex; flex-direction:column;
   padding:var(--content-pad);
   position:relative; z-index:1;
-  display:flex; flex-direction:column; flex:1 1 auto; min-height:0;
+  border-top:none;
+  flex-grow:1;
+  min-height:0;
 }
-
-/* Title (fixed size 1.5rem, editor color) */
-#{{uc_id}} .ue-item-title{ 
-  font-size:1.5rem; 
-  color: var(--title-color) !important; 
-  text-align:center; 
-  margin:.5rem 0; 
-}
-#{{uc_id}} .ue-item-title a{ color:inherit !important; text-decoration:none; }
-
-/* Description (editor color) */
-#{{uc_id}} .ue-item-intro{ color: var(--intro-color); }
+.ue-carousel-content-inside{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+.ue-item-title{ font-size:1.5rem; color:var(--ue-title-color)!important; text-align:center; margin:.5rem 0; }
+.ue-item-title a{ color:inherit!important; text-decoration:none; }
+.ue-item-intro{ color:var(--ue-desc-color); margin-top:auto; margin-bottom:1rem; }
 
 /* Dots */
-#{{uc_id}} .owl-dots{ text-align:center; margin-top:.75rem; position:relative; z-index:2; }
-#{{uc_id}} .owl-dot{
-  width:var(--dot-size); height:var(--dot-size);
-  padding:0; margin:0 calc(var(--dot-gap)/2) !important;
-  border:0; background:none; border-radius:50%;
-  display:inline-flex; align-items:center; justify-content:center;
-}
-#{{uc_id}} .owl-dot span{
-  width:100%; height:100%; border-radius:50%; display:block;
-  background:var(--dot-inactive);
-  -webkit-mask-image:-webkit-radial-gradient(white, black);
-  mask-image:radial-gradient(white, black);
-}
-#{{uc_id}} .owl-dot.active span{ background:var(--dot-active); }
+.owl-dots{ text-align:center; margin-top:.75rem; position:relative; z-index:2; }
+.owl-dot{ width:var(--dot-size); height:var(--dot-size); margin:0 calc(var(--dot-gap)/2)!important; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; }
+.owl-dot span{ width:100%; height:100%; border-radius:50%; background:var(--content-bg); display:block; }
+.owl-dot.active span{ background:var(--dot-active); }
 
-/* Optional dark variant (JS toggles .dark-ui on the wrapper) */
-#{{uc_id}}.dark-ui{
-  --dot-inactive: rgba(255,255,255,.25);
-  --dot-active:   #fff;
-  --arrow-color:  #fff;
-}
+/* Owl alignment */
+.owl-stage{ display:flex!important; align-items:stretch!important; }
+.owl-item{ display:flex!important; align-items:stretch!important; height:auto!important; min-height:0; }
+.owl-item:last-child{ margin-right:0!important; }
 
-/* MOBILE — keep Owl carousel + make slides equal height */
+/* MOBILE: 1 item per view, no peek */
 @media (max-width:1024px){
-  #{{uc_id}} .owl-stage{ display:flex !important; align-items:stretch !important; }
-  #{{uc_id}} .owl-item{ display:flex !important; align-items:stretch !important; height:auto !important; }
-  #{{uc_id}} .carousel-nav.inside-content{
-    display:flex; position:absolute; left:.02rem; right:.02rem; top:.5rem;
-    justify-content:space-between; pointer-events:none; z-index:3;
+  .ue-horizontal-timeline .uc-items-wrapper,
+  .ue-horizontal-timeline .owl-stage-outer,
+  .ue-horizontal-timeline .owl-stage{
+    padding:0!important; margin:0!important; gap:0!important; column-gap:0!important;
   }
-  #{{uc_id}} .carousel-nav.inside-content .carousel-prev,
-  #{{uc_id}} .carousel-nav.inside-content .carousel-next{
-    pointer-events:auto; background:none; border:0; color:var(--arrow-color);
-    font-size:3rem; line-height:1; padding:0; margin:0;
+  .ue-horizontal-timeline .owl-stage-outer{ overflow:hidden!important; }
+  .ue-horizontal-timeline .owl-stage{ display:flex!important; transform:translate3d(0,0,0); }
+
+  .ue-horizontal-timeline .owl-item{
+    float:none!important;
+    flex:0 0 100%!important;
+    width:100%!important; min-width:100%!important; max-width:100%!important;
+    margin:0!important;
+    padding-left: calc(var(--gap-x)/2) !important;
+    padding-right: calc(var(--gap-x)/2) !important;
+    box-sizing:border-box;
   }
-  #{{uc_id}} .ue-item-title{ font-size:1.25rem; }
+  .ue-horizontal-timeline .ue-carousel-item-holder{ box-sizing:border-box; }
 }
 
-/* DESKTOP GRID — turn Owl’s stage into a CSS grid when .is-grid is on the wrapper */
-@media (min-width:1025px){
-  /* make Owl container behave like a grid */
-  #{{uc_id}}.is-grid .owl-stage-outer{ overflow:visible !important; height:auto !important; }
-  #{{uc_id}}.is-grid .owl-stage{
-    display:grid !important;
-    grid-template-columns:repeat(3, minmax(0,1fr));
-    gap: var(--gap-y) var(--gap-x) !important;
-    transform:none !important;
-    width:auto !important;
-  }
-  #{{uc_id}}.is-grid .owl-item{
-    width:auto !important; margin:0 !important;
-    display:flex !important; align-items:stretch !important; height:auto !important;
-  }
-  /* fill cells → equal-height cards */
-  #{{uc_id}}.is-grid .ue-carousel-item{ display:flex !important; flex-direction:column !important; height:100% !important; }
-  #{{uc_id}}.is-grid .ue-item-image{ flex:0 0 auto; }
-  #{{uc_id}}.is-grid .ue-carousel-content,
-  #{{uc_id}}.is-grid .ue-carousel-content-inside{ flex:1 1 auto; display:flex; flex-direction:column; min-height:0; }
-
-  /* hide carousel UI on desktop grid */
-  #{{uc_id}}.is-grid .owl-dots,
-  #{{uc_id}}.is-grid .carousel-nav{ display:none !important; }
+/* Desktop grid */
+.ue-horizontal-timeline.is-grid .uc-items-wrapper{
+  display:grid!important;
+  gap:var(--gap-y) var(--gap-x);
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch;
 }
+.ue-horizontal-timeline.is-grid .owl-stage-outer,
+.ue-horizontal-timeline.is-grid .owl-stage{ display:contents!important; height:auto!important; }
+.ue-horizontal-timeline.is-grid .owl-item.cloned{ display:none!important; }
+.ue-horizontal-timeline.is-grid .owl-item{ width:auto!important; margin:0!important; }
+.ue-horizontal-timeline.is-grid .uc-items-wrapper > *{ height:100%; }
+.ue-horizontal-timeline.is-grid .ue-carousel-item{ height:100%!important; }
 
-/* === DESKTOP GRID: work whether Owl is initialized or not === */
-
-/* 1) If Owl DID initialize (there is .owl-stage), grid that node */
-#{{uc_id}}.is-grid .owl-stage{
-  display:grid !important;
-  grid-template-columns:repeat(3, minmax(0,1fr));
-  gap: var(--gap-y) var(--gap-x) !important;
-  transform:none !important;
-  width:auto !important;
+/* Optional CSS scroll-snap fallback (auto-added if Owl missing) */
+.ue-horizontal-timeline.use-snap .uc-items-wrapper{
+  display:flex!important; overflow-x:auto!important; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+  gap:0!important; padding:0!important; margin:0!important;
 }
-
-/* 2) If Owl did NOT initialize (no .owl-stage), grid the immediate container */
-#{{uc_id}}.is-grid .uc-items-wrapper{
-  display:grid !important;
-  grid-template-columns:repeat(3, minmax(0,1fr));
-  gap: var(--gap-y) var(--gap-x) !important;
-}
-
-/* Normalize children in both cases */
-#{{uc_id}}.is-grid .owl-item,
-#{{uc_id}}.is-grid .uc-items-wrapper > .ue-carousel-item{
-  width:auto !important;
-  margin:0 !important;
-  display:flex !important;
-  align-items:stretch !important;
-  height:auto !important;
-}
-
-/* Equal-height cards in grid mode */
-#{{uc_id}}.is-grid .ue-carousel-item{
-  display:flex !important;
-  flex-direction:column !important;
-  height:100% !important;
-  min-height:0;
-}
-#{{uc_id}}.is-grid .ue-item-image{ flex:0 0 auto; }
-#{{uc_id}}.is-grid .ue-carousel-content,
-#{{uc_id}}.is-grid .ue-carousel-content-inside{
-  flex:1 1 auto; display:flex; flex-direction:column; min-height:0;
-}
-
-/* Hide carousel UI in grid mode */
-#{{uc_id}}.is-grid .owl-dots,
-#{{uc_id}}.is-grid .carousel-nav{ display:none !important; }
-
-/* Make sure the outer viewport doesn't clip the grid */
-#{{uc_id}}.is-grid .owl-stage-outer{ overflow:visible !important; height:auto !important; }
-
-/* Global equal-height across the whole grid (driven by JS) */
-#{{uc_id}}.is-grid{
-  --card-fixed-height: auto; /* JS will write a px value here */
-}
-
-/* Force each card to that height when we have it */
-#{{uc_id}}.is-grid .ue-carousel-item{
-  min-height: var(--card-fixed-height);
-}
-
-/* Make the inner structure fill that height cleanly */
-#{{uc_id}}.is-grid .ue-carousel-item-holder{ 
-  display:flex; 
-  flex-direction:column; 
-  height:100%; 
-  min-height:0;
-}
-#{{uc_id}}.is-grid .ue-item-image{ flex:0 0 auto; }
-#{{uc_id}}.is-grid .ue-carousel-content,
-#{{uc_id}}.is-grid .ue-carousel-content-inside{ 
-  flex:1 1 auto; 
-  display:flex; 
-  flex-direction:column; 
-  min-height:0; 
-}
-
-/* ---- GRID only on desktop (>=768px) ---- */
-@media (min-width:768px){
-  #{{uc_id}}.is-grid .uc-items-wrapper{
-    display:grid;
-    gap: var(--gap-y) var(--gap-x);
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    align-items:stretch;
-    grid-auto-rows: 1fr;
-  }
-  #{{uc_id}}.is-grid .uc-items-wrapper > *{
-    margin:0 !important;
-    height:100%;
-    min-height:0;
-  }
-  #{{uc_id}}.is-grid .ue-carousel-item{
-    display:flex !important;
-    flex-direction:column !important;
-    height:var(--card-fixed-height, 100%) !important;
-    min-height:0;
-  }
-  #{{uc_id}}.is-grid .ue-item-image{ flex:0 0 auto; }
-  #{{uc_id}}.is-grid .ue-carousel-content,
-  #{{uc_id}}.is-grid .ue-carousel-content-inside{
-    flex:1 1 auto; display:flex; flex-direction:column; min-height:0;
-  }
-  /* hide carousel UI in desktop grid */
-  #{{uc_id}}.is-grid .owl-dots,
-  #{{uc_id}}.is-grid .carousel-nav{ display:none !important; }
-}
-
-/* ---- Force carousel on mobile/tablet (<768px) ---- */
-@media (max-width:767px){
-  /* kill any grid leftovers */
-  #{{uc_id}}.is-grid .uc-items-wrapper{ display:block !important; }
-  #{{uc_id}} .owl-stage{ display:flex !important; align-items:stretch !important; }
-  #{{uc_id}} .owl-item{
-    display:flex !important; flex:1 1 auto !important; align-items:stretch !important;
-    height:auto !important;
-    margin-right:var(--gap-x) !important;
-    margin-bottom:var(--gap-y) !important;
-  }
-  #{{uc_id}} .ue-item-title{ font-size:1.25rem; }
-
-  /* mobile arrows inside content (if you use them) */
-  #{{uc_id}} .carousel-nav.inside-content{
-    display:flex; position:absolute; left:.02rem; right:.02rem; top:.5rem;
-    justify-content:space-between; pointer-events:none; z-index:3;
-  }
-  #{{uc_id}} .carousel-nav.inside-content .carousel-prev,
-  #{{uc_id}} .carousel-nav.inside-content .carousel-next{
-    pointer-events:auto; background:none; border:0; color:var(--arrow-color);
-    font-size:var(--arrow-size); line-height:1; padding:0; margin:0;
-  }
-}
-
-/* ---- Title color stays editable; link inherits ---- */
-#{{uc_id}} .ue-item-title{ color: {{title_color}} !important; }
-#{{uc_id}} .ue-item-title a{ color: inherit !important; text-decoration:none; }
-
-/* ---- Content background feeds the dots (kept) ---- */
-#{{uc_id}} .ue-carousel-content,
-#{{uc_id}} .ue-carousel-content-inside{
-  background: var(--content-bg, {{content_background}} );
-}
-
-/* ---- Dots colors (inactive from content bg, active from control) ---- */
-#{{uc_id}} .owl-dot span{ background: var(--dot-inactive, var(--content-bg, {{content_background}})); }
-#{{uc_id}} .owl-dot.active span{ background: {{dot_active_color}}; }
-
-/* ---- Optional dark variant still works ---- */
-#{{uc_id}}.dark-ui{
-  --dot-inactive: rgba(255,255,255,.25);
-  --dot-active: #fff;
-  --arrow-color: #fff;
+.ue-horizontal-timeline.use-snap .uc-items-wrapper > *{
+  flex:0 0 100%; scroll-snap-align:start; padding-left: calc(var(--gap-x)/2); padding-right: calc(var(--gap-x)/2);
 }
